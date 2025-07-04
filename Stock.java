@@ -32,6 +32,10 @@ public class Stock {
 
     public boolean editProduct(String productName, int count) {
         Product Product = getProductByName(productName);
+        if (Product == null) {
+            System.err.println("Product \'" +  productName + "\' not found.");
+            return false;
+        }
         int index = products.indexOf(Product);
         if (index != -1) {
             Product product = products.get(index);

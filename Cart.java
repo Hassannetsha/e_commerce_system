@@ -15,9 +15,13 @@ public class Cart {
     public void add(String productName, int quantity) {
         if (stock.editProduct(productName, quantity)) {
             Product product = stock.getProductByName(productName);
+            if (product == null) {
+                System.err.println("Product \'" +  productName + "\' not found.");
+                return;
+            }
             OrderedProduct orderedProduct = new OrderedProduct(product, quantity);
             products.add(orderedProduct);
-            totalPrice += product.getPrice();
+            totalPrice += product.getPrice() * quantity;
         } else {
             System.err.println("Product out of stock.");
         }
@@ -31,31 +35,63 @@ public class Cart {
     public List<OrderedProduct> getProducts() {
         return new ArrayList<>(products);
     }
+    // ...existing code...
 
-    public double shippingPrint() {
-        double totalWeight = 0.0;
+    // Helper method to print cart items with a custom value (price or weight)
+    private void printCartItems(java.util.function.BiFunction<OrderedProduct, Integer, String> valueProvider, String valueSuffix) {
         for (OrderedProduct product : products) {
             int itemQuantity = product.getQuantityOrdered();
-            double itemWeight = product.getWeight() * itemQuantity;
-            totalWeight += itemWeight;
             String item = itemQuantity + "x" + product.getName();
-            String weight = itemWeight + "g";
-            String padding = Utilities.calculatePadding(item, weight);
-            System.out.println(item + padding + weight);
+            String value = valueProvider.apply(product, itemQuantity) + valueSuffix;
+            String padding = Utilities.calculatePadding(item, value);
+            System.out.println(item + padding + value);
         }
+    }
+
+    public double printShippingDetails() {
+        double totalWeight = 0.0;
+        for (OrderedProduct product : products) {
+            totalWeight += product.getWeight() * product.getQuantityOrdered();
+        }
+        printCartItems(
+            (prod, qty) -> String.valueOf(prod.getWeight() * qty),
+            "g"
+        );
         return totalWeight;
     }
 
     public void print() {
-        for (OrderedProduct product : products) {
-            int itemQuantity = product.getQuantityOrdered();
-            double itemPrice = product.getPrice() * itemQuantity;
-            String item = itemQuantity + "x" + product.getName();
-            String weight = String.format("%.2f", itemPrice);
-            String padding = Utilities.calculatePadding(item, weight);
-            System.out.println(item + padding + weight);
-        }
+        printCartItems(
+            (prod, qty) -> String.format("%.2f", prod.getPrice() * qty),
+            ""
+        );
     }
+
+// ...existing code...
+    // public double shippingPrint() {
+    //     double totalWeight = 0.0;
+    //     for (OrderedProduct product : products) {
+    //         int itemQuantity = product.getQuantityOrdered();
+    //         double itemWeight = product.getWeight() * itemQuantity;
+    //         totalWeight += itemWeight;
+    //         String item = itemQuantity + "x" + product.getName();
+    //         String weight = itemWeight + "g";
+    //         String padding = Utilities.calculatePadding(item, weight);
+    //         System.out.println(item + padding + weight);
+    //     }
+    //     return totalWeight;
+    // }
+
+    // public void print() {
+    //     for (OrderedProduct product : products) {
+    //         int itemQuantity = product.getQuantityOrdered();
+    //         double itemPrice = product.getPrice() * itemQuantity;
+    //         String item = itemQuantity + "x" + product.getName();
+    //         String weight = String.format("%.2f", itemPrice);
+    //         String padding = Utilities.calculatePadding(item, weight);
+    //         System.out.println(item + padding + weight);
+    //     }
+    // }
 
     public boolean isAllItemsShippingAvailable() {
         for (OrderedProduct product : products) {

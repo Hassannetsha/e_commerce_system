@@ -39,12 +39,4 @@ public class OrderedProduct {
         return product.isExpired();
     }
 
-    @Override
-    public String toString() {
-        return "OrderedProduct{" +
-                "product=" + product +
-                ", quantity=" + quantity +
-                ", totalPrice=" + getTotalPrice() +
-                '}';
-    }
 }

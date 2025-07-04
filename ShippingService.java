@@ -23,7 +23,7 @@ public class ShippingService {
     public void print() {
         if (isShippingAvailable()) {
             System.out.println("** Shipment notice **");
-            double totalWeight = cart.shippingPrint();
+            double totalWeight = cart.printShippingDetails();
             String text = "Total package weight";
             String weight = String.format("%.2f", totalWeight / 1000) + "kg";
             String padding = Utilities.calculatePadding(text, weight);

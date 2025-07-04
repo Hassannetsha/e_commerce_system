@@ -5,9 +5,9 @@ public class Customer {
     private double balance;
     private boolean isShipping;
 
-    public Customer(String name, String ShippingAddress, String phoneNumber, double balance, boolean ship) {
+    public Customer(String name, String shippingAddress, String phoneNumber, double balance, boolean ship) {
         this.name = name;
-        this.shippingAddress = ShippingAddress;
+        this.shippingAddress = shippingAddress;
         this.phoneNumber = phoneNumber;
         this.balance = balance;
         this.isShipping = ship;
@@ -33,21 +33,11 @@ public class Customer {
         return balance >= price;
     }
 
-    public void addBalance(int amount) {
+    public void addBalance(double amount) {
         this.balance += amount;
     }
 
     public boolean isShipping() {
         return isShipping;
-    }
-
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "name='" + name + '\'' +
-                ", ShippingAddress='" + shippingAddress + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", balance='" + balance + '\'' +
-                '}';
     }
 }

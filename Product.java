@@ -58,8 +58,4 @@ public class Product {
         return expireDate != null && LocalDate.now().isAfter(expireDate);
     }
 
-    @Override
-    public String toString() {
-        return "Product{name='" + name + "', price=" + price + "', weight=" + weight + '}';
-    }
 }
