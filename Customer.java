@@ -3,15 +3,13 @@ public class Customer {
     private String shippingAddress;
     private String phoneNumber;
     private double balance;
-    private boolean isShipping;
-    //This is for the customer is going to ship the product or not
 
-    public Customer(String name, String shippingAddress, String phoneNumber, double balance, boolean ship) {
+
+    public Customer(String name, String shippingAddress, String phoneNumber, double balance) {
         this.name = name;
         this.shippingAddress = shippingAddress;
         this.phoneNumber = phoneNumber;
         this.balance = balance;
-        this.isShipping = ship;
     }
 
     public String getName() {
@@ -38,7 +36,5 @@ public class Customer {
         this.balance += amount;
     }
 
-    public boolean isShipping() {
-        return isShipping;
-    }
+
 }

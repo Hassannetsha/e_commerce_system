@@ -22,7 +22,7 @@ public class Main {
         if (!cart.isAllItemsNotExpired()) {
             return;
         }
-        boolean isShipping = customer.isShipping();
+        boolean isShipping = cart.isShipping();
         if (isShipping) {
             shippingService = new ShippingService(cart, customer.getShippingAddress());
             shippingService.print();
@@ -64,8 +64,8 @@ public class Main {
         stock.addProduct(laptop);
         stock.addProduct(tv);
         stock.addProduct(scratchCard);
-        cart = new Cart();
-        Customer customer = new Customer("John Doe", "123 Main St", "123-456-7890", 100100.0, true);
+        cart = new Cart(true);
+        Customer customer = new Customer("John Doe", "123 Main St", "123-456-7890", 100100.0);
         // cart.add("Milk", 2);
         cart.add("cheese", 2);
         cart.add("tv", 1);

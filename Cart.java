@@ -4,19 +4,22 @@ import java.util.ArrayList;
 public class Cart {
     private List<OrderedProduct> products;
     private double totalPrice;
+    private boolean isShipping = true;
+    // This is for the customer is going to ship the product or not
     Stock stock;
 
-    public Cart() {
+    public Cart(boolean isShipping) {
         this.products = new ArrayList<>();
         this.totalPrice = 0.0;
         stock = Stock.getStock();
+        this.isShipping = isShipping;
     }
 
     public void add(String productName, int quantity) {
         if (stock.editProduct(productName, quantity)) {
             Product product = stock.getProductByName(productName);
             if (product == null) {
-                System.err.println("Product \'" +  productName + "\' not found.");
+                System.err.println("Product \'" + productName + "\' not found.");
                 return;
             }
             OrderedProduct orderedProduct = new OrderedProduct(product, quantity);
@@ -35,10 +38,9 @@ public class Cart {
     public List<OrderedProduct> getProducts() {
         return new ArrayList<>(products);
     }
-    // ...existing code...
 
-    // Helper method to print cart items with a custom value (price or weight)
-    private void printCartItems(java.util.function.BiFunction<OrderedProduct, Integer, String> valueProvider, String valueSuffix) {
+    private void printCartItems(java.util.function.BiFunction<OrderedProduct, Integer, String> valueProvider,
+            String valueSuffix) {
         for (OrderedProduct product : products) {
             int itemQuantity = product.getQuantityOrdered();
             String item = itemQuantity + "x" + product.getName();
@@ -54,44 +56,16 @@ public class Cart {
             totalWeight += product.getWeight() * product.getQuantityOrdered();
         }
         printCartItems(
-            (prod, qty) -> String.valueOf(prod.getWeight() * qty),
-            "g"
-        );
+                (prod, qty) -> String.valueOf(prod.getWeight() * qty),
+                "g");
         return totalWeight;
     }
 
     public void print() {
         printCartItems(
-            (prod, qty) -> String.format("%.2f", prod.getPrice() * qty),
-            ""
-        );
+                (prod, qty) -> String.format("%.2f", prod.getPrice() * qty),
+                "");
     }
-
-// ...existing code...
-    // public double shippingPrint() {
-    //     double totalWeight = 0.0;
-    //     for (OrderedProduct product : products) {
-    //         int itemQuantity = product.getQuantityOrdered();
-    //         double itemWeight = product.getWeight() * itemQuantity;
-    //         totalWeight += itemWeight;
-    //         String item = itemQuantity + "x" + product.getName();
-    //         String weight = itemWeight + "g";
-    //         String padding = Utilities.calculatePadding(item, weight);
-    //         System.out.println(item + padding + weight);
-    //     }
-    //     return totalWeight;
-    // }
-
-    // public void print() {
-    //     for (OrderedProduct product : products) {
-    //         int itemQuantity = product.getQuantityOrdered();
-    //         double itemPrice = product.getPrice() * itemQuantity;
-    //         String item = itemQuantity + "x" + product.getName();
-    //         String weight = String.format("%.2f", itemPrice);
-    //         String padding = Utilities.calculatePadding(item, weight);
-    //         System.out.println(item + padding + weight);
-    //     }
-    // }
 
     public boolean isAllItemsShippingAvailable() {
         for (OrderedProduct product : products) {
@@ -112,5 +86,9 @@ public class Cart {
             }
         }
         return true;
+    }
+
+    public boolean isShipping() {
+        return isShipping;
     }
 }
