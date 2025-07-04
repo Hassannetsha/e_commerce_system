@@ -7,7 +7,7 @@ public class Product {
     private double weight;
     private int quantity;
     private boolean isShippable;
-    private LocalDate expireDate = null; // Add this field
+    private LocalDate expireDate = null;
 
     public Product(String name, double price, double weight, int quantity, boolean isShippable) {
         this(name, price, weight, quantity, isShippable, null);

@@ -97,6 +97,7 @@ public class Cart {
         for (OrderedProduct product : products) {
             if (!product.getProduct().isShippable()) {
                 System.err.println("Shipping not available for the item \'" + product.getName() + "\' in the cart.");
+                Utilities.continueSuccessfully = false;
                 return false;
             }
         }

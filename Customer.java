@@ -4,6 +4,7 @@ public class Customer {
     private String phoneNumber;
     private double balance;
     private boolean isShipping;
+    //This is for the customer is going to ship the product or not
 
     public Customer(String name, String shippingAddress, String phoneNumber, double balance, boolean ship) {
         this.name = name;

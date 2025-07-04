@@ -27,26 +27,28 @@ public class Main {
             shippingService = new ShippingService(cart, customer.getShippingAddress());
             shippingService.print();
         }
-        System.out.println("** Checkout receipt **");
-        cart.print();
-        System.err.println("------------------------------");
-        double printPrice;
-        double totalPrice = cart.getTotalPrice();
-        printPrice = totalPrice;
-        String text = "Subtotal";
-        print(text, printPrice);
-        double shippingCost = 0.0;
-        if (isShipping) {
-            text = "Shipping cost";
-            shippingCost = shippingService.getShippingCost();
-            printPrice = shippingCost;
+        if (Utilities.continueSuccessfully) {
+            System.out.println("\n\n** Checkout receipt **");
+            cart.print();
+            System.err.println("------------------------------");
+            double printPrice;
+            double totalPrice = cart.getTotalPrice();
+            printPrice = totalPrice;
+            String text = "Subtotal";
             print(text, printPrice);
+            double shippingCost = 0.0;
+            if (isShipping) {
+                text = "Shipping cost";
+                shippingCost = shippingService.getShippingCost();
+                printPrice = shippingCost;
+                print(text, printPrice);
+            }
+            text = "Total";
+            printPrice = (totalPrice + (isShipping ? shippingCost : 0));
+            print(text, printPrice);
+            customer.addBalance(- cart.getTotalPrice());
+            System.out.println("Customer current balance = " + customer.getBalance());
         }
-        text = "Total";
-        printPrice = (totalPrice + (isShipping ? shippingCost : 0));
-        print(text, printPrice);
-        customer.addBalance(- cart.getTotalPrice());
-        System.out.println("Customer current balance = " + customer.getBalance());
 
     }
 
@@ -56,7 +58,7 @@ public class Main {
         Product cheese = new Product("cheese", 10.0, 1000.0, 100, true, LocalDate.of(2025, 7, 10));
         Product laptop = new Product("laptop", 10000.0, 2000.0, 5, true);
         Product tv = new Product("tv", 100000.0, 6000.0, 10, true);
-        Product scratchCard = new Product("scratchCard", 5.0, 50, 20, false);
+        Product scratchCard = new Product("scratchCard", 5.0, 50, 20, true);
         stock.addProduct(milk);
         stock.addProduct(cheese);
         stock.addProduct(laptop);

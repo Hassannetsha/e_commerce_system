@@ -11,5 +11,5 @@ public class Utilities {
             spaces = 1;
         return " ".repeat(spaces);
     }
-
+    public static boolean continueSuccessfully = true;
 }
