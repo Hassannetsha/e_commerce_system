@@ -58,7 +58,7 @@ public class Main {
         Product cheese = new Product("cheese", 10.0, 1000.0, 100, true, LocalDate.of(2025, 7, 10));
         Product laptop = new Product("laptop", 10000.0, 2000.0, 5, true);
         Product tv = new Product("tv", 100000.0, 6000.0, 10, true);
-        Product scratchCard = new Product("scratchCard", 5.0, 50, 20, true);
+        Product scratchCard = new Product("scratchCard", 5.0, 50, 20, false);
         stock.addProduct(milk);
         stock.addProduct(cheese);
         stock.addProduct(laptop);
